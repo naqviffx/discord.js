@@ -421,6 +421,17 @@ function parseWebhookURL(url) {
   };
 }
 
+/**
+ * Resolves a SKU id from a SKU resolvable.
+ * @param {SKUResolvable} resolvable The SKU resolvable to resolve
+ * @returns {?Snowflake} The resolved SKU id, or `null` if the resolvable was invalid
+ */
+function resolveSKUId(resolvable) {
+  if (typeof resolvable === 'string') return resolvable;
+  if (resolvable instanceof SKU) return resolvable.id;
+  return null;
+}
+
 module.exports = {
   flatten,
   fetchRecommendedShardCount,
@@ -439,7 +450,9 @@ module.exports = {
   cleanContent,
   cleanCodeBlockContent,
   parseWebhookURL,
+  resolveSKUId,
 };
 
 // Fixes Circular
 const GuildChannel = require('../structures/GuildChannel');
+const { SKU } = require('../structures/SKU.js');
