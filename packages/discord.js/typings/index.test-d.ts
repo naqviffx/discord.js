@@ -2431,6 +2431,11 @@ declare const sku: SKU;
     await application.entitlements.deleteTest(entitlement);
   }
 
+  if (entitlement.isTest()) {
+    expectType<null>(entitlement.startsAt);
+    expectType<null>(entitlement.endsAt);
+  }
+
   client.on(Events.InteractionCreate, async interaction => {
     expectType<Collection<Snowflake, Entitlement>>(interaction.entitlements);
 

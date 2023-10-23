@@ -1340,6 +1340,7 @@ export class Entitlement extends Base {
   public get guild(): Guild | null;
   public fetchUser(): Promise<User>;
   public isActive(): boolean;
+  public isTest(): this is this & { startsAt: null; endsAt: null };
   public isUserSubscription(): this is this & { guildId: null; get guild(): null };
   public isGuildSubscription(): this is this & { guildId: Snowflake; guild: Guild };
 }

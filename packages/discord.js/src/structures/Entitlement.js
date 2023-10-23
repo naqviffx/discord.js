@@ -72,7 +72,7 @@ class Entitlement extends Base {
     if ('created_at' in data) {
       /**
        * The start date at which this entitlement is valid
-       * <info>This is `null` for test entitlements</info>
+       * <info>This is only `null` for test entitlements</info>
        * @type {?Date}
        */
       this.startsAt = Date.parse(data.starts_at);
@@ -83,7 +83,7 @@ class Entitlement extends Base {
     if ('ends_at' in data) {
       /**
        * The end date at which this entitlement is no longer valid
-       * <info>This is `null` for test entitlements</info>
+       * <info>This is only `null` for test entitlements</info>
        * @type {?Date}
        */
       this.endsAt = Date.parse(data.ends_at);
@@ -102,7 +102,7 @@ class Entitlement extends Base {
   }
 
   /**
-   * Returns whether this entitlement is active
+   * Indicates whether this entitlement is active
    * @returns {boolean}
    */
   isActive() {
@@ -110,7 +110,15 @@ class Entitlement extends Base {
   }
 
   /**
-   * Whether this entitlement is a user subscription
+   * Indicates whether this entitlement is a test entitlement
+   * @returns {boolean}
+   */
+  isTest() {
+    return this.startsAt === null;
+  }
+
+  /**
+   * Indicates whether this entitlement is a user subscription
    * @returns {boolean}
    */
   isUserSubscription() {
@@ -118,7 +126,7 @@ class Entitlement extends Base {
   }
 
   /**
-   * Whether this entitlement is a guild subscription
+   * Indicates whether this entitlement is a guild subscription
    * @returns {boolean}
    */
   isGuildSubscription() {
