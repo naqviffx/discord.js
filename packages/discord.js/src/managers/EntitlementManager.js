@@ -68,7 +68,10 @@ class EntitlementManager extends CachedManager {
     });
 
     const entitlements = await this.client.rest.get(Routes.entitlements(this.client.application.id), { query });
-    return new Collection(entitlements.map(entitlement => [entitlement.id, this._add(entitlement, cache)]));
+    return entitlements.reduce(
+      (coll, entitlement) => coll.set(entitlement.id, this._add(entitlement, cache)),
+      new Collection(),
+    );
   }
 
   /**
