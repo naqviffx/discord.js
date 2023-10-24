@@ -69,26 +69,26 @@ class Entitlement extends Base {
       this.deleted = data.deleted;
     }
 
-    if ('created_at' in data) {
+    if ('starts_at' in data) {
       /**
-       * The start date at which this entitlement is valid
+       * The timestamp at which this entitlement is valid
        * <info>This is only `null` for test entitlements</info>
-       * @type {?Date}
+       * @type {?number}
        */
-      this.startsAt = Date.parse(data.starts_at);
+      this.startsTimestamp = Date.parse(data.starts_at);
     } else {
-      this.startsAt ??= null;
+      this.startsTimestamp ??= null;
     }
 
     if ('ends_at' in data) {
       /**
-       * The end date at which this entitlement is no longer valid
+       * The timestamp at which this entitlement is no longer valid
        * <info>This is only `null` for test entitlements</info>
-       * @type {?Date}
+       * @type {?number}
        */
-      this.endsAt = Date.parse(data.ends_at);
+      this.endsTimestamp = Date.parse(data.ends_at);
     } else {
-      this.endsAt ??= null;
+      this.endsTimestamp ??= null;
     }
   }
 
@@ -102,11 +102,29 @@ class Entitlement extends Base {
   }
 
   /**
+   * The start date at which this entitlement is valid
+   * <info>This is only `null` for test entitlements</info>
+   * @type {?Date}
+   */
+  get startsAt() {
+    return this.startsTimestamp && new Date(this.startsTimestamp);
+  }
+
+  /**
+   * The end date at which this entitlement is no longer valid
+   * <info>This is only `null` for test entitlements</info>
+   * @type {?Date}
+   */
+  get endsAt() {
+    return this.endsTimestamp && new Date(this.endsTimestamp);
+  }
+
+  /**
    * Indicates whether this entitlement is active
    * @returns {boolean}
    */
   isActive() {
-    return !this.deleted && (!this.endsAt || this.endsAt.getTime() > Date.now());
+    return !this.deleted && (!this.endsTimestamp || this.endsTimestamp > Date.now());
   }
 
   /**
@@ -114,7 +132,7 @@ class Entitlement extends Base {
    * @returns {boolean}
    */
   isTest() {
-    return this.startsAt === null;
+    return this.startsTimestamp === null;
   }
 
   /**

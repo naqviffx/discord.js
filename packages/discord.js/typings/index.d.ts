@@ -1335,12 +1335,19 @@ export class Entitlement extends Base {
   public applicationId: Snowflake;
   public type: EntitlementType;
   public deleted: boolean;
-  public startsAt: Date | null;
-  public endsAt: Date | null;
+  public startsTimestamp: number | null;
+  public endsTimestamp: number | null;
   public get guild(): Guild | null;
+  public get startsAt(): Date | null;
+  public get endsAt(): Date | null;
   public fetchUser(): Promise<User>;
   public isActive(): boolean;
-  public isTest(): this is this & { startsAt: null; endsAt: null };
+  public isTest(): this is this & {
+    startsTimestamp: null;
+    endsTimestamp: null;
+    get startsAt(): null;
+    get endsAt(): null;
+  };
   public isUserSubscription(): this is this & { guildId: null; get guild(): null };
   public isGuildSubscription(): this is this & { guildId: Snowflake; guild: Guild };
 }

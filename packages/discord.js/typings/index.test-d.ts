@@ -2432,6 +2432,8 @@ declare const sku: SKU;
   }
 
   if (entitlement.isTest()) {
+    expectType<null>(entitlement.startsTimestamp);
+    expectType<null>(entitlement.endsTimestamp);
     expectType<null>(entitlement.startsAt);
     expectType<null>(entitlement.endsAt);
   }
